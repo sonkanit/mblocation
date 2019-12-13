@@ -6,18 +6,18 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.google.android.gms.location.*
-/*import com.android.volley.Request
+import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import org.json.JSONObject*/
+import org.json.JSONObject
 
 class GeofenceBroadcastReceiver  : BroadcastReceiver() {
 
-/*    private lateinit var geofencingClient: GeofencingClient
+    private lateinit var geofencingClient: GeofencingClient
     private lateinit var geofenceList: List<Geofence>
-    //private lateinit var queue: RequestQueue
+    private lateinit var queue: RequestQueue
 
     private fun getGeofencingRequest(): GeofencingRequest {
         return GeofencingRequest.Builder().apply {
@@ -25,7 +25,7 @@ class GeofenceBroadcastReceiver  : BroadcastReceiver() {
             addGeofences(geofenceList)
         }.build()
     }
-*/
+
     override fun onReceive(context: Context?, intent: Intent?) {
         val TAG = "location"
         val geofencingEvent = GeofencingEvent.fromIntent(intent)
@@ -34,33 +34,33 @@ class GeofenceBroadcastReceiver  : BroadcastReceiver() {
             return
         }
 
-/*        if (queue == null) {
+        //if (queue == null) {
             queue = Volley.newRequestQueue(context)
-        }
-*/
+        //}
+
         // Get the transition type.
         val geofenceTransition = geofencingEvent.geofenceTransition
 
         // Test that the reported transition was of interest.
         val location = geofencingEvent.triggeringLocation;
         val locationString = "Lat: ${location.latitude} Long: ${location.longitude}"
-        //val url = "https://us-central1-fluid-outcome-206504.cloudfunctions.net/location"
+        val url = "https://us-central1-fluid-outcome-206504.cloudfunctions.net/location"
 
         when (geofenceTransition) {
             Geofence.GEOFENCE_TRANSITION_ENTER -> {
                 Log.i(TAG, geofenceTransition.toString())
                 Log.i(TAG, locationString)
-/*                val objReq = JsonObjectRequest(Request.Method.POST, url, JSONObject("""{ "lat": ${location.latitude}, "long": ${location.longitude}, "uuid": "KanitPhoneEnter" }"""), Response.Listener {
+                val objReq = JsonObjectRequest(Request.Method.POST, url, JSONObject("""{ "lat": ${location.latitude}, "long": ${location.longitude}, "uuid": "KanitPhoneEnter" }"""), Response.Listener {
                     Log.i("location", "POSTED")
                 }, Response.ErrorListener {
                     Log.e("location", "POST ERROR")
-                })*/
-//                queue.add(objReq)
+                })
+                queue.add(objReq)
             }
             Geofence.GEOFENCE_TRANSITION_EXIT -> {
                 Log.i(TAG, geofenceTransition.toString())
                 Log.i(TAG, locationString)
-/*                val objReq = JsonObjectRequest(Request.Method.POST, url, JSONObject("""{ "lat": ${location.latitude}, "long": ${location.longitude}, "uuid": "KanitPhoneExit" }"""), Response.Listener {
+                val objReq = JsonObjectRequest(Request.Method.POST, url, JSONObject("""{ "lat": ${location.latitude}, "long": ${location.longitude}, "uuid": "KanitPhoneExit" }"""), Response.Listener {
                     Log.i("location", "POSTED")
                 }, Response.ErrorListener {
                     Log.e("location", "POST ERROR")
@@ -114,18 +114,18 @@ class GeofenceBroadcastReceiver  : BroadcastReceiver() {
                         Log.e("location", "error")
                     }
                 }
-*/
+
             }
             Geofence.GEOFENCE_TRANSITION_DWELL -> {
                 Log.i(TAG, geofenceTransition.toString())
                 Log.i(TAG, locationString)
-/*                val objReq = JsonObjectRequest(Request.Method.POST, url, JSONObject("""{ "lat": ${location.latitude}, "long": ${location.longitude}, "uuid": "KanitPhoneDwell" }"""), Response.Listener {
+                val objReq = JsonObjectRequest(Request.Method.POST, url, JSONObject("""{ "lat": ${location.latitude}, "long": ${location.longitude}, "uuid": "KanitPhoneDwell" }"""), Response.Listener {
                     Log.i("location", "POSTED")
                 }, Response.ErrorListener {
                     Log.e("location", "POST ERROR")
                 })
-*/
-//                queue.add(objReq)
+
+                queue.add(objReq)
             }
             else -> {
                 Log.e(TAG, "error")
